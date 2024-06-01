@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import Area, Cargo, Empleado, Usuario, Departamento, Municipio, Pago, Asistencia, Permiso
+from .models import Area, Cargo, Empleado, Departamento, Municipio, Pago, Asistencia, Permiso
 
 # Register your models here.
 class EmpleadoAdminForm(forms.ModelForm):
@@ -54,7 +54,6 @@ admin.site.register(Departamento, DepartamentoAdmin)
 admin.site.register(Municipio)
 admin.site.register(Cargo)
 admin.site.register(Area)
-admin.site.register(Usuario)
 admin.site.register(Pago)
 admin.site.register(Asistencia)
 admin.site.register(Permiso)
