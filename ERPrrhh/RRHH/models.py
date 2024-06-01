@@ -19,15 +19,18 @@ class Cargo(models.Model):
     descripcion_cargo = models.TextField(max_length=100)
 
     def __str__(self):
-        return str(self.nombre_cargo)
+        return f'{self.area} - {self.nombre_cargo}'
 
 class Empleado(models.Model):
     "Esta es una clase que representa un empleado"
     carnet = models.CharField(max_length=6, primary_key=True)
-    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE, related_name='empleados')
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
     dui = models.CharField(max_length=9)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='empleados_area', default=1)
+    cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE, related_name='empleados_cargo')  
+    departamento = models.ForeignKey('Departamento', on_delete=models.CASCADE, related_name='empleados_departamento', default=1)
+    municipio = models.ForeignKey('Municipio', on_delete=models.CASCADE, related_name='empleados_municipio', default=1)
     sexo = [
         ('M', 'Masculino'),
         ('F', 'Femenino')
@@ -57,9 +60,7 @@ class Usuario(models.Model):
 class Departamento(models.Model):
     "Esta es una clase que representa un departamento del pais El Salvador"
     id_departamento = models.AutoField(primary_key=True)
-    carnet = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='departamentos', blank=True, null=True)
     nombre_departamento = models.CharField(max_length=50)
-
     def __str__(self):
         return str(self.nombre_departamento)
 
@@ -70,7 +71,7 @@ class Municipio(models.Model):
     nombre_municipio = models.CharField(max_length=50)
 
     def __str__(self):
-        return str(self.nombre_municipio)
+        return f'{self.nombre_municipio}'
 
 class Pago(models.Model):
     "Esta es una clase que representa un pago"
