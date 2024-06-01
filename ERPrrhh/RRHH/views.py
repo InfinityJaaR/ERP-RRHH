@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Area, Cargo, Empleado, Usuario, Departamento, Municipio, Pago, Asistencia, Permiso
 from .froms import CargoForm, AreaForm
+from django.core.paginator import Paginator
+from django.http import Http404
+from django.db.models import Q
 
 # Create your views here.
 def GestionarEmpleadosView(request):
@@ -66,10 +69,28 @@ def GestionarPermisoADView(request):
     return render(request, "ADgestionarPermiso.html")
 
 def GestionarOrganizacionView(request):
+    busqueda = request.GET.get("buscar")
     empleados=Empleado.objects.all()
-    data = {
-        'empleados': empleados
+    page= request.GET.get('page', 1)
 
+    if busqueda:
+        empleados = Empleado.objects.filter(
+            Q(carnet__icontains =busqueda)|
+            Q(nombres__icontains = busqueda)|
+            Q(apellidos__icontains = busqueda)|
+            Q(area__nombre_area__icontains = busqueda)|
+            Q(cargo__nombre_cargo__icontains = busqueda)
+        ).distinct()
+
+    try:
+        paginator = Paginator(empleados, 10)
+        empleados= paginator.page(page)
+    except:
+        raise Http404
+
+    data = {
+        'entity': empleados,
+        'paginator': paginator
     }
     return render(request, "ADgestionarOrganizacion.html", data)
 
