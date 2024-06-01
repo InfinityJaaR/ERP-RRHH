@@ -19,7 +19,7 @@ class Cargo(models.Model):
     descripcion_cargo = models.TextField(max_length=100)
 
     def __str__(self):
-        return f'{self.area} - {self.nombre_cargo}'
+        return f'{self.nombre_cargo}'
 
 class Empleado(models.Model):
     "Esta es una clase que representa un empleado"
