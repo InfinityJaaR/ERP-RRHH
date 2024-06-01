@@ -47,15 +47,19 @@ class Empleado(models.Model):
 
     def __str__(self):
         return f'{self.nombres} {self.apellidos} {self.rol}'
+    
+# class auth_user(models.Model):
+#     "Esta es una clase que representa un usuario del sistema"
+#     id = models.AutoField(primary_key=True)
+#     username = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='usuarios')
+#     password = models.TextField(max_length=256)
+#     is_superuser = models.BooleanField(default=False)
+#     is_staff = models.BooleanField(default=False)
+#     is_active = models.BooleanField(default=True)
+#     date_joined = models.DateTimeField(auto_now_add=True)
 
-class Usuario(models.Model):
-    "Esta es una clase que representa un usuario del sistema"
-    id_usuario = models.AutoField(primary_key=True)
-    carnet = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='usuarios')
-    password = models.TextField(max_length=256)
-
-    def __str__(self):
-        return str(self.carnet)
+#     def __str__(self):
+#         return str(self.username)
 
 class Departamento(models.Model):
     "Esta es una clase que representa un departamento del pais El Salvador"
@@ -77,13 +81,15 @@ class Pago(models.Model):
     "Esta es una clase que representa un pago"
     codigo_pago = models.AutoField(primary_key=True)
     carnet = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='pagos')
+    asistencia = models.ForeignKey('Asistencia', on_delete=models.CASCADE, related_name='pagos', default=1)
+    permiso = models.ForeignKey('Permiso', on_delete=models.CASCADE, related_name='pagos', blank=True, null=True)
     bono = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     totalpagar = models.DecimalField(max_digits=10, decimal_places=2)
     isss = models.DecimalField(max_digits=10, decimal_places=2)
     afp = models.DecimalField(max_digits=10, decimal_places=2)
     renta = models.DecimalField(max_digits=10, decimal_places=2)
-    fechapago = models.TimeField()
+    fechapago = models.DateField()
 
     def __str__(self):
         return f'Pago {self.codigo_pago} - {self.carnet}'
@@ -92,7 +98,8 @@ class Asistencia(models.Model):
     "Esta es una clase que representa la asistencia de un empleado"
     id_asistencia = models.AutoField(primary_key=True)
     carnet = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='asistencias')
-    horas_trabajadas = models.IntegerField(default=0)
+    horas_trabajadas_diunas = models.IntegerField(default=0)
+    horas_trabajadas_nocturnas = models.IntegerField(default=0)
     horas_extras_diurnas = models.IntegerField(default=0)
     horas_extras_nocturnas = models.IntegerField(default=0) 
     mes = [

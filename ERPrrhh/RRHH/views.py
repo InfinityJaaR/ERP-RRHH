@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Area, Cargo, Empleado, Usuario, Departamento, Municipio, Pago, Asistencia, Permiso
+from .models import Area, Cargo, Empleado, Departamento, Municipio, Pago, Asistencia, Permiso
 from .froms import CargoForm, AreaForm
 from django.core.paginator import Paginator
 from django.http import Http404
