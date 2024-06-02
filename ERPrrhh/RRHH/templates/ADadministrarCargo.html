@@ -50,7 +50,9 @@
     </style>
 </head>
 <body>
-    <header>
+    {% extends 'navCard.html' %}
+    {% block content %}
+    <!-- <header>
         <nav>
             <h1>RRHH</h1>
             <ul>
@@ -60,7 +62,7 @@
                 <li><a href="/administrador/pagos">Pagos</a></li>
                 <li><a href="/administrador/asistencia">Asistencia</a></li>
             </ul>
-        </nav>
+        </nav> -->
     </header>
     <br><br>
     <div class="container text-center">
@@ -105,5 +107,6 @@
         
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% endblock %}
 </body>
 </html>
