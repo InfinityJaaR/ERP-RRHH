@@ -22,7 +22,7 @@ urlpatterns = [
     path('get_cargos/', get_cargos, name='get_cargos'),
     path('get_municipios/', get_municipios, name='get_municipios'),
 
-    path('administrador/asistencia',RegistrarAsistenciaView),
+    
     path('administrador/pagos',GestionarPagoADView),
     path('empleado/pagos/<id>',GestionarPagoEMView, name='mis_pagos'),
     path('EliminarCargo/<int:id>', EliminarCargo, name="EliminarCargo"),
@@ -31,5 +31,9 @@ urlpatterns = [
     path('ModificarCargo/<id>', ModificarCargo, name="ModificarCarg"),
     path('ModificarArea/<id>', ModificarArea, name="ModificarArea"),
     path('registro/<id>',Registro,name="Registro"),
-    path('logout/',exit,name="exit" )
+    path('logout/',exit,name="exit" ),
+    
+    #path('administrador/asistencia',RegistrarAsistenciaView),
+    path('administrador/asistencias',RegistrarAsistenciaView, name="RegistrarAsistenciaView"),
+    path('administrador/asistencias/guardar', save_csv, name="save_csv"),
 ]

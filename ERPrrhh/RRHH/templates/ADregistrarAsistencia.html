@@ -75,87 +75,67 @@
         <main>
             <div class="container">
                 <h2>Registro de asistencia</h2>
-                <div class="upload-section">
-                    <input type="file" id="file-upload" class="file-upload form-control" accept=".csv">
-                    <label for="file-upload" class="btn btn-primary">Subir asistencia</label>
-                    <button class="btn btn-secondary">Guardar asistencia</button>
-                </div>
-                <div class="table-responsive">
+                <form method="post" enctype="multipart/form-data" id="upload-form">
+                    {% csrf_token %}
+                    <div class="upload-section">
+                        <input type="file" id="file-upload" class="file-upload form-control" name="csv_file" accept=".csv">
+                        <button type="submit" class="btn btn-primary">Subir asistencia</button>
+                    </div>
+                </form>
+                <div class="table-responsive" id="preview-table" style="display: none;">
                     <table class="table table-bordered">
                         <thead class="table-header">
                             <tr>
-                                <th>Código Pago</th>
-                                <th>ID</th>
-                                <th>Empleado</th>
-                                <th>Año</th>
+                                <th>Carnet</th>
+                                <th>Horas Trabajadas Diurnas</th>
+                                <th>Horas Trabajadas Nocturnas</th>
+                                <th>Horas Extras Diurnas</th>
+                                <th>Horas Extras Nocturnas</th>
                                 <th>Mes</th>
-                                <th>Puesto</th>
-                                <th>Área</th>
-                                <th>Horas diurnas</th>
-                                <th>Horas diurnas extras</th>
-                                <th>Horas nocturnas</th>
-                                <th>Horas nocturnas extras</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>A600</td>
-                                <td>AJ001</td>
-                                <td>Juan Amayo Juárez</td>
-                                <td>2024</td>
-                                <td>Febrero</td>
-                                <td>Técnico</td>
-                                <td>Mantenimiento</td>
-                                <td>200</td>
-                                <td>10</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>A601</td>
-                                <td>BO002</td>
-                                <td>Carlos Bonilla Jurado</td>
-                                <td>2024</td>
-                                <td>Febrero</td>
-                                <td>Gerente</td>
-                                <td>Ventas</td>
-                                <td>200</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>A602</td>
-                                <td>JG003</td>
-                                <td>Karina Jurado Gutiérrez</td>
-                                <td>2024</td>
-                                <td>Febrero</td>
-                                <td>Asistente</td>
-                                <td>Ventas</td>
-                                <td>200</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>A603</td>
-                                <td>TT004</td>
-                                <td>Rodrigo Tyler Tyrrell</td>
-                                <td>2024</td>
-                                <td>Febrero</td>
-                                <td>Técnico</td>
-                                <td>Mantenimiento</td>
-                                <td>200</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>10</td>
-                            </tr>
+                        <tbody id="table-body">
+                            <!-- Filas dinámicas -->
                         </tbody>
                     </table>
+                    <form method="post" action="{% url 'save_csv' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary">Guardar asistencia</button>
+                    </form>
                 </div>
             </div>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+2Gm+a5p5V3h0k5Nfap3d0x8Wf/NV" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('upload-form').onsubmit = function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    const rows = text.split('\n').slice(1); // Omitir la cabecera
+                    const tableBody = document.getElementById('table-body');
+                    tableBody.innerHTML = '';
+                    rows.forEach(row => {
+                        const cols = row.split(',');
+                        if (cols.length >= 6) {
+                            const tr = document.createElement('tr');
+                            cols.forEach(col => {
+                                const td = document.createElement('td');
+                                td.textContent = col.trim();
+                                tr.appendChild(td);
+                            });
+                            tableBody.appendChild(tr);
+                        }
+                    });
+                    document.getElementById('preview-table').style.display = 'block';
+                };
+                reader.readAsText(file);
+            }
+        };
+    </script>
 </body>
 </html>

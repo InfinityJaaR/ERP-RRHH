@@ -1,12 +1,15 @@
+import csv
+from io import TextIOWrapper
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Area, Cargo, Empleado, Departamento, Municipio, Pago, Asistencia, Permiso
-from .froms import CargoForm, AreaForm, CustomUserCreationForm
+from .froms import CargoForm, AreaForm, CustomUserCreationForm, CSVUploadForm
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth import logout
+from django.contrib import messages
 
 
 # Create your views here.
@@ -254,3 +257,60 @@ def Registro(request, id):
 def exit(request):
     logout(request)
     return redirect("/")
+
+# def RegistrarAsistenciaView(request):
+#     return render(request, "ADregistrarAsistencia.html")
+
+#@login_required
+def RegistrarAsistenciaView(request):
+    if request.method == 'POST' and 'csv_file' in request.FILES:
+        form = CSVUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = TextIOWrapper(request.FILES['csv_file'].file, encoding='utf-8')
+            reader = csv.reader(csv_file)
+            next(reader)  # Omitir la cabecera del CSV
+
+            data = []
+            for row in reader:
+                try:
+                    carnet = Empleado.objects.get(carnet=row[0])
+                    data.append({
+                        'carnet': carnet.id,  # Almacenar el ID del empleado
+                        'horas_trabajadas_diunas': row[1],
+                        'horas_trabajadas_nocturnas': row[2],
+                        'horas_extras_diurnas': row[3],
+                        'horas_extras_nocturnas': row[4],
+                        'mes_asistencia': row[5],
+                    })
+                except Empleado.DoesNotExist:
+                    continue  # Omitir registros con carnet no encontrado
+
+            request.session['csv_data'] = data
+            return render(request, 'ADregistrarAsistencia.html', {'data': data})
+    else:
+        form = CSVUploadForm()
+
+    return render(request, 'ADregistrarAsistencia.html', {'form': form})
+
+#@login_required
+def save_csv(request):
+    if request.method == 'POST':
+        csv_data = request.session.get('csv_data')
+
+        if csv_data:
+            for item in csv_data:
+                Asistencia.objects.create(
+                    carnet_id=item['carnet'],  # Usar el ID del empleado
+                    horas_trabajadas_diunas=item['horas_trabajadas_diunas'],
+                    horas_trabajadas_nocturnas=item['horas_trabajadas_nocturnas'],
+                    horas_extras_diurnas=item['horas_extras_diurnas'],
+                    horas_extras_nocturnas=item['horas_extras_nocturnas'],
+                    mes_asistencia=item['mes_asistencia']
+                )
+
+            messages.success(request, 'Datos importados exitosamente.')
+            return redirect('RegistrarAsistenciaView')
+        else:
+            messages.error(request, 'No hay datos para guardar.')
+
+    return redirect('RegistrarAsistenciaView')

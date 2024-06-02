@@ -19,3 +19,6 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model= User
         fields = ["username", "groups", "password1", "password2"]
+        
+class CSVUploadForm(forms.Form):
+    csv_file = forms.FileField()
