@@ -41,29 +41,55 @@
         <nav>
             <h1>RRHH</h1>
             <ul>
-                <li><a href="#">Inicio</a></li>
+                <li><a href="{% url 'HomeView' %}">Inicio</a></li>
 
                 {% if user.is_authenticated %}
+                    {% if perms.RRHH.view_empleado %}
                 <li>
                     <a href="{% url 'perfil_empleado' user.username %}">Perfil</a>
                 </li>
+                    {% endif %}
                 {% endif %}
-                <li><a href="/rrhh/administrador/Organizacion">Organizacion</a></li>
+
+                {% if perms.RRHH.add_empleado %}
+                <li>
+                    <a href="/rrhh/administrador/Organizacion">Organizacion</a>
+                </li>
+                {% endif %}
 
                 {% if user.is_authenticated %}
+                    {% if perms.RRHH.view_permiso %}
                 <li>
                     <a href="{% url 'gestionar_permisosEM' user.username %}">Permisos</a>
                 </li>
+                    {% endif %}
                 {% endif %}
-                <li><a href="/rrhh/administrador/permisos">Permisos</a></li>
+
+                {% if perms.RRHH.change_permiso %}
+                <li>
+                    <a href="/rrhh/administrador/permisos">Permisos</a>
+                </li>
+                {% endif %}
 
                 {% if user.is_authenticated %}
+                    {% if perms.RRHH.view_pago %}
                 <li>
                     <a href="{% url 'mis_pagos' user.username %}">Pagos</a>
                 </li>
+                    {% endif %}
                 {% endif %}
-                <li><a href="/rrhh/administrador/pagos">Pagos</a></li>
-                <li><a href="/rrhh/administrador/asistencia">Asistencia</a></li>
+
+                {% if perms.RRHH.add_pago %}
+                <li>
+                    <a href="/rrhh/administrador/pagos">Pagos</a>
+                </li>
+                {% endif %}
+
+                {% if perms.RRHH.add_asistencia %}
+                <li>
+                    <a href="/rrhh/administrador/asistencia">Asistencia</a>
+                </li>
+                {% endif %}
 
                 {% if user.is_authenticated %}
                 <li>

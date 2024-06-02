@@ -8,7 +8,7 @@ urlpatterns = [
     path('empleado/permisos/<id>',GestionarPermisosView, name='gestionar_permisosEM'),
     path('administrador/organizacion/cargos', AdministrarCargoView, name="AdministrarCargoView"),
     path('administrador/pagos/nuevoPago',CrearPagoView),
-    path('empleado/permisos/solicitarPermiso',SolicitarPermisoView, name='solicitar_permiso'),
+    path('empleado/permisos/solicitarPermiso/<id>',SolicitarPermisoView, name='solicitar_permiso'),
     path('',HomeView, name= "HomeView"),
     #ruta pantallas Eduardo
     path('administrador/Organizacion/areas',AdministrarAreaView, name="AdministrarAreaView"),
