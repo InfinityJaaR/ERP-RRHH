@@ -31,6 +31,7 @@ class Empleado(models.Model):
     cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE, related_name='empleados_cargo')  
     departamento = models.ForeignKey('Departamento', on_delete=models.CASCADE, related_name='empleados_departamento', default=1)
     municipio = models.ForeignKey('Municipio', on_delete=models.CASCADE, related_name='empleados_municipio', default=1)
+    telefono = models.CharField(max_length=8, default='0000-0000')
     sexo = [
         ('M', 'Masculino'),
         ('F', 'Femenino')
