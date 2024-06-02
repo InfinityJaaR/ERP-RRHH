@@ -45,7 +45,7 @@
                 <li><a href="#">Inicio</a></li>
                 <li><a href="/empleado/perfil">Perfil</a></li>
                 <li><a href="/empleado/permisos">Permisos</a></li>
-                <li><a href="#">Pagos</a></li>
+                <li><a href="/empleado/pagos">Pagos</a></li>
             </ul>
         </nav>
     </header>
@@ -56,117 +56,66 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="firstName" class="form-label">Nombres</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" disabled>
+                        <input type="text" class="form-control" id="firstName" value="{{ empleado.nombres }}" disabled>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="DUI" class="form-label">DUI</label>
-                            <input type="text" class="form-control" id="dui" placeholder="########-#" disabled>
+                            <label for="dui" class="form-label">DUI</label>
+                            <input type="text" class="form-control" id="dui" value="{{ empleado.dui }}" disabled>
                         </div>
                         <div class="col-md-6">
                             <label for="gender" class="form-label">Género</label>
-                            <select class="form-select" id="gender" disabled>
-                            <option selected>Choose...</option>
-                            <option value="1">Hombre</option>
-                            <option value="2">Mujer</option>
-                            </select>
+                            <input type="text" class="form-control" id="gender" value="{{ empleado.get_genero_display }}" disabled>
                         </div>
                     </div>
                     <div class="">
                         <label for="address" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="address" placeholder="Enter your address" disabled>
+                        <input type="text" class="form-control" id="address" value="{{ empleado.direccion }}" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="area" class="form-label">Área</label>
-                        <select class="form-select" id="area" disabled>
-                            <option selected>Choose...</option>
-                            <option value="1">Area 1</option>
-                            <option value="2">Area 2</option>
-                            <option value="3">Area 3</option>
-                        </select>
+                        <input type="text" class="form-control" id="area" value="{{ empleado.area}}" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="position" class="form-label">Puesto</label>
-                        <select class="form-select" id="position" disabled>
-                            <option selected>Choose...</option>
-                            <option value="1">Position 1</option>
-                            <option value="2">Position 2</option>
-                            <option value="3">Position 3</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Usuario</label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter your username" disabled>
+                        <input type="text" class="form-control" id="position" value="{{ empleado.cargo.nombre_cargo }}" disabled>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" disabled>
+                        <input type="text" class="form-control" id="lastName" value="{{ empleado.apellidos}}" disabled>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="birthDate" class="form-label">Fecha de nacimiento</label>
-                            <input type="date" class="form-control" id="birthDate" disabled>
+                            <input type="date" class="form-control" id="birthDate" value="{{ empleado.fechanacimiento | date:'Y-m-d' }}" disabled>
                         </div>
                         <div class="col-md-6">
                             <label for="phone" class="form-label">Teléfono</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="####-####" disabled>
+                            <input type="tel" class="form-control" id="phone" value="{{ empleado.telefono}}" disabled>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="department" class="form-label">Departamento</label>
-                            <select class="form-select" id="department" disabled>
-                                <option selected>Choose...</option>
-                                <option value="1">Ahuachapán</option>
-                                <option value="2">Cabañas</option>
-                                <option value="3">Chalatenango</option>
-                                <option value="4">Cuscatlán</option>
-                                <option value="5">La Libertad</option>
-                                <option value="6">Morazán</option>
-                                <option value="7">La Paz</option>
-                                <option value="8">Santa Ana</option>
-                                <option value="9">San Miguel</option>
-                                <option value="10">San Salvador</option>
-                                <option value="11">San Vicente	</option>
-                                <option value="12">Sonsonate</option>
-                                <option value="13">La Unión</option>
-                                <option value="14">Usulután</option>
-                            </select>
+                            <input type="text" class="form-control" id="department" value="{{ empleado.departamento }}" disabled>
                         </div>
                         <div class="col-md-6">
                             <label for="municipality" class="form-label">Municipio</label>
-                            <select class="form-select" id="municipality" disabled>
-                                <option selected>Choose...</option>
-                                <option value="1">Municipality 1</option>
-                                <option value="2">Municipality 2</option>
-                                <option value="3">Municipality 3</option>
-                            </select>
+                            <input type="text" class="form-control" id="municipality" value="{{ empleado.municipio }}" disabled>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="rol" class="form-label">Rol</label>
-                        <select class="form-select" id="rol" disabled>
-                            <option selected>Choose...</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Empleado</option>
-                        </select>
+                        <input type="text" class="form-control" id="rol" value="{{ empleado.get_rol_display }}" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="salario" class="form-label">Salario base</label>
-                        <input type="text" class="form-control" id="salario" placeholder="Salario base" disabled>
-                    </div>
-                    <div>
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password" disabled>
+                        <input type="text" class="form-control" id="salario" value="{{ empleado.salariobase }}" disabled>
                     </div>
                 </div>
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button type="button" class="btn btn-secondary ms-3">Cancelar</button>
             </div>
         </form>
     </div>

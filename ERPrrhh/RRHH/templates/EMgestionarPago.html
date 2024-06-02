@@ -45,6 +45,10 @@
             text-align: center;
             margin-bottom: 4%;
         }
+
+        table td, th{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -53,23 +57,19 @@
             <nav>
                 <h1>RRHH</h1>
                 <ul>
-                    <li><a href="#">Perfil</a></li>
-                    <li><a href="#">Permisos</a></li>
-                    <li><a href="#" class="active">Pagos</a></li>
+                    <li><a href="inicio">Inicio</a></li>
+                    <li><a href="/empleado/perfil">Perfil</a></li>
+                    <li><a href="/empleado/permisos">Permisos</a></li>
+                    <li><a href="/empleado/pagos">Pagos</a></li>
                 </ul>
             </nav>
         </header>
         <main class="container mt-4">
             <h2>Mis pagos</h2>
-            <form class="filter-bar d-flex align-items-center mb-3">
-                <label for="year" class="me-2">Ingrese año correspondiente</label>
-                <select id="year" class="form-select me-3">
-                    <option value="2024">2024</option>
-                </select>
-                <label for="month" class="me-2">Ingrese mes correspondiente</label>
-                <select id="month" class="form-select">
-                    <option value="Enero">Enero</option>
-                </select>
+            <form class="filter-bar d-flex align-items-center mb-3" method="GET">
+                <label for="fechaPago" class="form-label me-2">Fecha de pago</label>
+                <input type="date" class="form-control me-2" id="fechaPago" name="fechaPago" value="{{ request.GET.fechaPago|default:'' }}">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
             </form>
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -77,8 +77,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Empleado</th>
-                            <th>Mes</th>
-                            <th>Año</th>
                             <th>Puesto</th>
                             <th>Área</th>
                             <th>Fecha de registro</th>
@@ -87,19 +85,19 @@
                             <th>Total a cobrar $</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table-body">
+                        {% for pago in pagos %}
                         <tr>
-                            <td>A500</td>
-                            <td>Juan Amayo Juárez</td>
-                            <td>Enero</td>
-                            <td>2024</td>
-                            <td>Técnico</td>
-                            <td>Mantenimiento</td>
-                            <td>20/03/2024</td>
-                            <td>1000</td>
-                            <td>102.5</td>
-                            <td>897.5</td>
+                            <td>{{ pago.codigo_pago }}</td>
+                            <td>{{ empleado.nombres }} {{ empleado.apellidos }}</td>
+                            <td>{{ empleado.cargo.nombre_cargo }}</td>
+                            <td>{{ empleado.area.nombre_area }}</td>
+                            <td>{{ pago.fechapago | date:"Y-m-d"}}</td>
+                            <td>{{ empleado.salariobase }}</td>
+                            <td>{{ pago.descuento }}</td>
+                            <td>{{ pago.totalpagar }}</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

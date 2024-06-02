@@ -75,20 +75,29 @@
             </tr>
           </thead>
           <tbody class="table-body">
+            {% for permiso in permisos %}
             <tr>
-              <td>AJ001</td>
-              <td>Juan</td>
-              <td>Amayo Juárez</td>
-              <td>20/03/2024</td>
-              <td>20/03/2024</td>
-              <td>Enfermedad</td>
-              <td>Aprobado</td>
+              <td>{{ permiso.codigo_permiso }}</td>
+              <td>{{ empleado.nombres }}</td>
+              <td>{{ empleado.apellidos }}</td>
+              <td>{{ permiso.fechainicio }}</td>
+              <td>{{ permiso.fechafinal }}</td>
+              <td>{{ permiso.justificacion }}</td>
+              <!-- <td>{{ permiso.estado }}</td> -->
+              {% if permiso.estado == '1' %}
+                <td style="color: darkgreen;">Aprobado</td>
+              {% elif permiso.estado == '2' %}
+                <td style="color: red;">Denegado</td>
+              {% elif permiso.estado == '3' %}
+                <td style="color: black;">Pendiente</td>
+              {%endif%} 
             </tr>
+            {% endfor %}
           </tbody>
         </table>
         <diw class="row">
           <div class="col">
-            <button type="button" class="btn btn-primary">Crear nueva solicitud</button>
+            <button type="button" onclick="location.href='/empleado/permisos/solicitarPermiso'" class="btn btn-primary">Crear nueva solicitud</button>
           </div>
         </diw>
     </div>

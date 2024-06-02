@@ -6,8 +6,9 @@ from django.http import Http404
 from django.db.models import Q
 
 # Create your views here.
-def GestionarEmpleadosView(request):
-    return render(request, 'EMgestionarEmpleado.html')
+def GestionarEmpleadosView(request, id="RM0009"):
+    empleado = get_object_or_404(Empleado, carnet=id)
+    return render(request, 'EMgestionarEmpleado.html', {'empleado': empleado})
 
 def AdministrarCargoView(request):
     cargos=Cargo.objects.all()
@@ -16,14 +17,47 @@ def AdministrarCargoView(request):
     }
     return render(request, "ADadministrarCargo.html", data)
 
+def GestionarPermisosView(request, id="RM0009"):
+    empleado = get_object_or_404(Empleado, carnet=id) 
+
+    permisos = Permiso.objects.filter(carnet=empleado)
+    
+    return render(request, 'EMgestionarPermisos.html', {'permisos': permisos, 'empleado':empleado})
+
+def SolicitarPermisoView(request, id="RM0009"):
+    if request.method == 'POST':
+        empleado = get_object_or_404(Empleado, carnet=id)
+        fecha_inicio = request.POST.get('fecha_inicio')
+        fecha_fin = request.POST.get('fecha_fin')
+        razon = request.POST.get('razon')
+
+        # Crear una nueva instancia de Permiso
+        permiso = Permiso(
+            #carnet=request.user.empleado,  # Asocia el permiso al empleado logueado
+            carnet=empleado,
+            fechainicio=fecha_inicio,
+            fechafinal=fecha_fin,
+            justificacion=razon,
+            estado = '3'# Estado inicial del permiso
+            #fecha_solicitud=timezone.now()  # Fecha en la que se solicita el permiso
+        )
+        permiso.save()
+
+        return redirect('gestionar_permisosEM')  # Redirige a la página de gestión de permisos
+    return render(request, 'EMsolicitarPermiso.html')
+
+def GestionarPagoEMView(request, id="RM0009"):
+    empleado = get_object_or_404(Empleado, carnet=id)
+    fecha_pago = request.GET.get('fechaPago')
+    if fecha_pago:
+        pagos = Pago.objects.filter(carnet=empleado, fechapago=fecha_pago)
+    else:
+        pagos = Pago.objects.filter(carnet=empleado)
+    return render(request, 'EMgestionarPago.html', {'pagos': pagos, 'empleado': empleado})
+
+
 def CrearPagoView(request):
     return render(request, "ADcrearPagos.html")
-
-def SolicitarPermisoView(request):
-    return render(request, "ADsolicitarPermiso.html")
-
-def GestionarPermisosView(request):
-    return render(request, "EMgestionarPermisos.html")
 
 def HomeView(request):
     return render(request, "inicio.html")
@@ -105,9 +139,6 @@ def RegistrarAsistenciaView(request):
 
 def GestionarPagoADView(request):
     return render(request, "ADgestionarPago.html")
-
-def GestiionarPagoEMView(request):
-    return render(request, "EMgestionarPago.html")
 
 def EliminarCargo(request, id):
     cargo = get_object_or_404(Cargo, id_cargo=id)

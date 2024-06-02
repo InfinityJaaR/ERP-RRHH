@@ -4,11 +4,11 @@ from .views import *
 
 urlpatterns = [
     path('', LoginView),
-    path('empleado/perfil', GestionarEmpleadosView),
-    path('empleado/permisos',GestionarPermisosView),
+    path('empleado/perfil', GestionarEmpleadosView, name="perfil_empleado"),
+    path('empleado/permisos',GestionarPermisosView, name='gestionar_permisosEM'),
     path('administrador/organizacion/cargos', AdministrarCargoView, name="AdministrarCargoView"),
     path('administrador/pagos/nuevoPago',CrearPagoView),
-    path('administrador/permisos/solicitarPermiso',SolicitarPermisoView),
+    path('empleado/permisos/solicitarPermiso',SolicitarPermisoView, name='solicitar_permiso'),
     path('inicio',HomeView),
     #ruta pantallas Eduardo
     path('administrador/Organizacion/areas',AdministrarAreaView, name="AdministrarAreaView"),
@@ -20,7 +20,7 @@ urlpatterns = [
     path('administrador/empleado',GestionarEmpleadoADView),
     path('administrador/asistencia',RegistrarAsistenciaView),
     path('administrador/pagos',GestionarPagoADView),
-    path('empleado/pagos',GestiionarPagoEMView),
+    path('empleado/pagos',GestionarPagoEMView, name='mis_pagos'),
     path('EliminarCargo/<int:id>', EliminarCargo, name="EliminarCargo"),
     path('EliminarArea/<int:id>', EliminarArea, name="EliminarArea"),
     path('EliminarEmpleadp/<id>', EliminarEmpleado, name="EliminarEmpleado"),
