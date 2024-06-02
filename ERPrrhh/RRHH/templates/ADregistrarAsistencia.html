@@ -61,8 +61,10 @@
     </style>
 </head>
 <body>
+    {% extends 'navCard.html' %}
+    {% block content %}
     <div>
-        <header>
+        <!-- <header>
             <nav>
                 <h1>RRHH</h1>
                 <ul>
@@ -71,7 +73,7 @@
                     <li><a href="#">Pagos</a></li>
                 </ul>
             </nav>
-        </header>
+        </header> -->
         <main>
             <div class="container">
                 <h2>Registro de asistencia</h2>
@@ -137,5 +139,6 @@
             }
         };
     </script>
+    {% endblock %}
 </body>
 </html>

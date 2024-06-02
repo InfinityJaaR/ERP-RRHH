@@ -87,7 +87,7 @@
 
                 {% if perms.RRHH.add_asistencia %}
                 <li>
-                    <a href="/rrhh/administrador/asistencia">Asistencia</a>
+                    <a href="{% url 'RegistrarAsistenciaView' %}">Asistencia</a>
                 </li>
                 {% endif %}
 
