@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Area, Cargo, Empleado, Departamento, Municipio, Pago, Asistencia, Permiso
-from .froms import CargoForm, AreaForm
+from .froms import CargoForm, AreaForm, CustomUserCreationForm
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.db.models import Q
+from django.contrib.auth import authenticate, login
 
 
 # Create your views here.
@@ -12,7 +13,7 @@ from django.db.models import Q
 # def index(request):
 #     return render(request, "login.html")
 
-def GestionarEmpleadosView(request, id="RM0009"):
+def GestionarEmpleadosView(request, id):
     empleado = get_object_or_404(Empleado, carnet=id)
     return render(request, 'EMgestionarEmpleado.html', {'empleado': empleado})
 
@@ -23,14 +24,14 @@ def AdministrarCargoView(request):
     }
     return render(request, "ADadministrarCargo.html", data)
 
-def GestionarPermisosView(request, id="RM0009"):
+def GestionarPermisosView(request, id):
     empleado = get_object_or_404(Empleado, carnet=id) 
 
     permisos = Permiso.objects.filter(carnet=empleado)
     
     return render(request, 'EMgestionarPermisos.html', {'permisos': permisos, 'empleado':empleado})
 
-def SolicitarPermisoView(request, id="RM0009"):
+def SolicitarPermisoView(request, id):
     if request.method == 'POST':
         empleado = get_object_or_404(Empleado, carnet=id)
         fecha_inicio = request.POST.get('fecha_inicio')
@@ -52,7 +53,7 @@ def SolicitarPermisoView(request, id="RM0009"):
         return redirect('gestionar_permisosEM')  # Redirige a la página de gestión de permisos
     return render(request, 'EMsolicitarPermiso.html')
 
-def GestionarPagoEMView(request, id="RM0009"):
+def GestionarPagoEMView(request, id):
     empleado = get_object_or_404(Empleado, carnet=id)
     fecha_pago = request.GET.get('fechaPago')
     if fecha_pago:
@@ -188,5 +189,20 @@ def ModificarArea(request, id):
             data["form"]= formulaio
     return render(request, "ADgestionarArea.html", data)
 
-def Registro(request):
-    return render(request, 'registration/registro.html')
+def Registro(request, id):
+    empleados=get_object_or_404(Empleado, carnet=id)
+    data={
+        'form': CustomUserCreationForm(),
+        'empleados':empleados
+    }
+    if request.method == 'POST':
+        formulario= CustomUserCreationForm(data=request.POST, )
+        #formulario.fields["username"].initial= empleados.carnet
+        if formulario.is_valid():
+            formulario.save()
+            # user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            # login(request,user)
+            return redirect(to="GestionarOrganizacionView")
+        data["form"]= formulario
+
+    return render(request, 'registration/registro.html',data)

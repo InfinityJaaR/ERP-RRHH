@@ -47,19 +47,47 @@
         {% block content %}
         {% load crispy_forms_tags %}
         <div class="container">
-            <div class="col-12 col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h2>Registro de usuario</h2>
-                        <hr>
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            {{form | crispy}}
-                            <input type="submit" value="registrar" class="btn btn-success float-end">
-                        </form>
+            <br>
+           
+            
+            <div class="row">
+                <div class="col-12 col-md-6 offset-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="text-center">Registro de usuario</h2>
+                            
+                            <hr>
+                            <h4 style="color: red;">Escribir el usuario de {{empleados.carnet}}</h4>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{form|crispy}}
+                                <!-- <div data-mdb-input-init class="form-outline mb-4">
+
+                                    <label class="form-label" for="form2Example18">Usuario*</label>
+                                    <input type="text" id="usuarioNombre" class="form-control form-control-lg" name="username" value="{{empleado.carnet}}" disabled required/>
+                                    
+                                </div>
+                      
+                                <div data-mdb-input-init class="form-outline mb-4">
+
+                                    <label class="form-label" for="form2Example28">Contraseña*</label>
+                                    <input type="password" id="usuarioContrasena" class="form-control form-control-lg" name="password1" required/>
+                                    
+                                </div>
+                                <div data-mdb-input-init class="form-outline mb-4">
+
+                                    <label class="form-label" for="form2Example28">Contraseña(Confirmación)*</label>
+                                    <input type="password" id="usuarioContrasena" class="form-control form-control-lg" name="password2" required/>
+                                    
+                                </div> -->
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <input type="submit" value="registrar" class="btn btn-success float-end">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+             </div>
         </div>
 
         {% endblock %}

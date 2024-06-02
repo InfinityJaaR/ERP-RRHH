@@ -43,13 +43,34 @@
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="#">Inicio</a></li>
-                <li><a href="/rrhh/empleado/perfil">Perfil</a></li>
+
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'perfil_empleado' user.username %}">Perfil</a>
+                </li>
+                {% endif %}
                 <li><a href="/rrhh/administrador/Organizacion">Organizacion</a></li>
-                <li><a href="/rrhh/empleado/permisos">Permisos</a></li>
+
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'gestionar_permisosEM' user.username %}">Permisos</a>
+                </li>
+                {% endif %}
                 <li><a href="/rrhh/administrador/permisos">Permisos</a></li>
-                <li><a href="/rrhh/empleado/pagos">Pagos</a></li>
+
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'mis_pagos' user.username %}">Pagos</a>
+                </li>
+                {% endif %}
                 <li><a href="/rrhh/administrador/pagos">Pagos</a></li>
                 <li><a href="/rrhh/administrador/asistencia">Asistencia</a></li>
+
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'exit' %}">Logout</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
     </header>
