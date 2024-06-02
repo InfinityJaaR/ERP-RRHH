@@ -53,8 +53,9 @@ def SolicitarPermisoView(request, id):
             #fecha_solicitud=timezone.now()  # Fecha en la que se solicita el permiso
         )
         permiso.save()
+        messages.success(request, "Se ha guardado su solicitud")
 
-        return redirect('gestionar_permisosEM')  # Redirige a la página de gestión de permisos
+        return redirect("{% url 'gestionar_permisosEM' user.username %}")  # Redirige a la página de gestión de permisos
     return render(request, 'EMsolicitarPermiso.html')
 
 def GestionarPagoEMView(request, id):
