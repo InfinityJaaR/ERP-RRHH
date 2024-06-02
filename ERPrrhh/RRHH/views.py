@@ -5,6 +5,7 @@ from .froms import CargoForm, AreaForm
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.db.models import Q
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -136,8 +137,51 @@ def GestionarOrganizacionView(request):
 def ModificarPagoView(request):
     return render(request, "ADmodificarPago.html")
 
+#CREAR EMPLEADO
 def GestionarEmpleadoADView(request):
-    return render(request, "ADgestionarEmpleado.html")
+    if request.method == 'POST':
+        carnet = request.POST.get('carnet')
+        nombres = request.POST.get('nombres')
+        apellidos = request.POST.get('apellidos')
+        dui = request.POST.get('dui')
+        genero = request.POST.get('genero')
+        direccion = request.POST.get('direccion')
+        area_id = request.POST.get('area')
+        cargo_id = request.POST.get('cargo')
+        departamento_id = request.POST.get('departamento')
+        municipio_id = request.POST.get('municipio')
+        fechanacimiento = request.POST.get('fechanacimiento')
+        telefono = request.POST.get('telefono')
+        salariobase = request.POST.get('salariobase')
+
+        area = Area.objects.get(pk=area_id)
+        cargo = Cargo.objects.get(pk=cargo_id)
+        departamento = Departamento.objects.get(pk=departamento_id)
+        municipio = Municipio.objects.get(pk=municipio_id)
+
+        Empleado.objects.create(
+            carnet=carnet, nombres=nombres, apellidos=apellidos, dui=dui, genero=genero,
+            direccion=direccion, area=area, cargo=cargo, departamento=departamento,
+            municipio=municipio, fechanacimiento=fechanacimiento, telefono=telefono,
+            salariobase=salariobase
+        )
+
+        return redirect('GestionarOrganizacionView')
+
+    return render(request, 'ADgestionarEmpleado.html', {
+        'areas': Area.objects.all(),
+        'departamentos': Departamento.objects.all()
+    })
+
+def get_cargos(request):
+    area_id = request.GET.get('area_id')
+    cargos = list(Cargo.objects.filter(area_id=area_id).values('id_cargo', 'nombre_cargo'))
+    return JsonResponse({'cargos': cargos})
+
+def get_municipios(request):
+    departamento_id = request.GET.get('departamento_id')
+    municipios = list(Municipio.objects.filter(departamento_id=departamento_id).values('id_municipio', 'nombre_municipio'))
+    return JsonResponse({'municipios': municipios})
 
 def RegistrarAsistenciaView(request):
     return render(request, "ADregistrarAsistencia.html")

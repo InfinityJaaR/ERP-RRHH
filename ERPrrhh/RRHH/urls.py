@@ -17,13 +17,17 @@ urlpatterns = [
     path('administrador/permisos',GestionarPermisoADView),
     path('administrador/Organizacion',GestionarOrganizacionView,name="GestionarOrganizacionView"),
     path('administrador/pagos/modificar',ModificarPagoView),
-    path('administrador/empleado',GestionarEmpleadoADView),
+    #Crear empleado
+    path('administrador/empleado',GestionarEmpleadoADView, name='GestionarEmpleadoADView'),
+    path('get_cargos/', get_cargos, name='get_cargos'),
+    path('get_municipios/', get_municipios, name='get_municipios'),
+
     path('administrador/asistencia',RegistrarAsistenciaView),
     path('administrador/pagos',GestionarPagoADView),
     path('empleado/pagos',GestionarPagoEMView, name='mis_pagos'),
     path('EliminarCargo/<int:id>', EliminarCargo, name="EliminarCargo"),
     path('EliminarArea/<int:id>', EliminarArea, name="EliminarArea"),
     path('EliminarEmpleadp/<id>', EliminarEmpleado, name="EliminarEmpleado"),
-    path('ModificarCargo/<id>', ModificarCargo, name="ModificarCargo"),
+    path('ModificarCargo/<id>', ModificarCargo, name="ModificarCarg"),
     path('ModificarArea/<id>', ModificarArea, name="ModificarArea"),
 ]
