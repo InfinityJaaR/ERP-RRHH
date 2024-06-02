@@ -231,3 +231,6 @@ def ModificarArea(request, id):
         else:
             data["form"]= formulaio
     return render(request, "ADgestionarArea.html", data)
+
+def Registro(request):
+    return render(request, 'registration/registro.html')

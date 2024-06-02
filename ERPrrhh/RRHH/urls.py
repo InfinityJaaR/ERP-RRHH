@@ -30,4 +30,5 @@ urlpatterns = [
     path('EliminarEmpleadp/<id>', EliminarEmpleado, name="EliminarEmpleado"),
     path('ModificarCargo/<id>', ModificarCargo, name="ModificarCarg"),
     path('ModificarArea/<id>', ModificarArea, name="ModificarArea"),
+    path('registro/',Registro,name="Registro")
 ]
