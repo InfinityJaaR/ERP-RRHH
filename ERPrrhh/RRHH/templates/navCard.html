@@ -65,6 +65,14 @@
                     {% endif %}
                 {% endif %}
 
+                {% if user.is_authenticated %}
+                {% if perms.RRHH.view_permiso %}
+                <li>
+                    <a href="{% url 'solicitar_permiso' user.username %}">Nuevo permiso</a>
+                </li>
+                    {% endif %}
+                {% endif %}
+
                 {% if perms.RRHH.change_permiso %}
                 <li>
                     <a href="/rrhh/administrador/permisos">Permisos</a>

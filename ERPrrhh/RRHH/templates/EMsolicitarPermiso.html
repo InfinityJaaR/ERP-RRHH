@@ -69,7 +69,7 @@
                         <textarea class="form-control" id="razon" name="razon" rows="3" required></textarea>
                     </div>
                     {% if perms.RRHH.add_permiso %}
-                    <a class="btn btn-success" role="button" href="{% url 'solicitar_permiso' user.username %}">Solicitar permiso</a>
+                    <button type="submit" class="btn btn-success">Solicitar permiso</button>
                     {% endif %}
                     <button type="reset" class="btn btn-danger">Cancelar</button>
                 </form>
