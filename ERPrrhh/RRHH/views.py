@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from django.db.models import Q
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 
 
 # Create your views here.
@@ -250,3 +250,7 @@ def Registro(request, id):
         data["form"]= formulario
 
     return render(request, 'registration/registro.html',data)
+
+def exit(request):
+    logout(request)
+    return redirect("/")

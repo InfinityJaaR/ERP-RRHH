@@ -31,5 +31,5 @@ urlpatterns = [
     path('ModificarCargo/<id>', ModificarCargo, name="ModificarCarg"),
     path('ModificarArea/<id>', ModificarArea, name="ModificarArea"),
     path('registro/<id>',Registro,name="Registro"),
-    #path('logout/, exit,')
+    path('logout/',exit,name="exit" )
 ]
