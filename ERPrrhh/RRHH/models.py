@@ -83,7 +83,6 @@ class Pago(models.Model):
     codigo_pago = models.AutoField(primary_key=True)
     carnet = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='pagos')
     asistencia = models.ForeignKey('Asistencia', on_delete=models.CASCADE, related_name='pagos', default=1)
-    permiso = models.ForeignKey('Permiso', on_delete=models.CASCADE, related_name='pagos', blank=True, null=True)
     bono = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     totalpagar = models.DecimalField(max_digits=10, decimal_places=2)
