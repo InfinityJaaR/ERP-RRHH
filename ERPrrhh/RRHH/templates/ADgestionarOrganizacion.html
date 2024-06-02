@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -74,7 +75,9 @@
     </style>
 </head>
 <body>
-    <header>
+    {% extends 'navCard.html' %}
+    {% block content %}
+    <!-- <header>
         <nav>
             <h1>RRHH</h1>
             <ul>
@@ -85,7 +88,7 @@
                 <li><a href="/administrador/asistencia">Asistencia</a></li>
             </ul>
         </nav>
-    </header>
+    </header> -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 sidebar">
@@ -153,5 +156,6 @@
             </div>
         </div>
     </div>
+    {% endblock %}
 </body>
 </html>

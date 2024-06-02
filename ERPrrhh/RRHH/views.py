@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Area, Cargo, Empleado, Departamento, Municipio, Pago, Asistencia, Permiso
 from .froms import CargoForm, AreaForm
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.db.models import Q
 
+
 # Create your views here.
+
+# def index(request):
+#     return render(request, "login.html")
+
 def GestionarEmpleadosView(request, id="RM0009"):
     empleado = get_object_or_404(Empleado, carnet=id)
     return render(request, 'EMgestionarEmpleado.html', {'empleado': empleado})
@@ -63,8 +69,7 @@ def HomeView(request):
     return render(request, "inicio.html")
 
 #Pantallas de Eduardo
-def LoginView(request):
-    return render(request, "login.html")
+
 
 def AdministrarAreaView(request):
     areas=Area.objects.all()
@@ -81,7 +86,7 @@ def GestionarAreaView(request):
         formulaio= AreaForm(data=request.POST)
         if formulaio.is_valid():
             formulaio.save()
-            data["mensaje"]= "Guardado correctamente"
+            return redirect("AdministrarAreaView")
         else:
             data["form"]= formulaio
     return render(request, "ADgestionarArea.html", data)
@@ -94,7 +99,7 @@ def GestionarCargoView(request):
         formulaio= CargoForm(data=request.POST)
         if formulaio.is_valid():
             formulaio.save()
-            data["mensaje"]= "Guardado correctamente"
+            return redirect("AdministrarCargoView")
         else:
             data["form"]= formulaio
     return render(request, "ADgestionarCargo.html", data)
