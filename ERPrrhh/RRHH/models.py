@@ -47,7 +47,7 @@ class Empleado(models.Model):
     salariobase = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f'{self.nombres} {self.apellidos} {self.rol}'
+        return f'{self.nombres} {self.apellidos}'
     
 # class auth_user(models.Model):
 #     "Esta es una clase que representa un usuario del sistema"

@@ -7,7 +7,7 @@ urlpatterns = [
     path('empleado/perfil/<id>', GestionarEmpleadosView, name="perfil_empleado"),
     path('empleado/permisos/<id>',GestionarPermisosView, name='gestionar_permisosEM'),
     path('administrador/organizacion/cargos', AdministrarCargoView, name="AdministrarCargoView"),
-    path('administrador/pagos/nuevoPago',CrearPagoView),
+    path('administrador/pagos/nuevoPago',CrearPagoView, name="CrearPagoView"),
     path('empleado/permisos/solicitarPermiso/<id>',SolicitarPermisoView, name='solicitar_permiso'),
     path('',HomeView, name= "HomeView"),
     #ruta pantallas Eduardo
@@ -16,7 +16,7 @@ urlpatterns = [
     path('administrador/Organizacion/cargos/gestionarCargo',GestionarCargoView, name="GestionarCargoView"),
     path('administrador/permisos',GestionarPermisoADView),
     path('administrador/Organizacion',GestionarOrganizacionView,name="GestionarOrganizacionView"),
-    path('administrador/pagos/modificar',ModificarPagoView),
+    path('administrador/pagos/modificar',ModificarPagoView, name="ModificarPagoView"),
     #Crear empleado
     path('administrador/empleado',GestionarEmpleadoADView, name='GestionarEmpleadoADView'),
     path('get_cargos/', get_cargos, name='get_cargos'),
