@@ -192,7 +192,16 @@ def RegistrarAsistenciaView(request):
     return render(request, "ADregistrarAsistencia.html")
 
 def GestionarPagoADView(request):
-    return render(request, "ADgestionarPago.html")
+    busqueda = request.GET.get("buscar")
+    pagos = Pago.objects.all()
+    if busqueda:
+        pagos = Pago.objects.filter(
+            Q(codigo_pago__icontains =busqueda)
+        ).distinct()
+    data = {
+        'pagos': pagos
+    }
+    return render(request, "ADgestionarPago.html", data)
 
 def EliminarCargo(request, id):
     cargo = get_object_or_404(Cargo, id_cargo=id)
